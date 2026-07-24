@@ -1,0 +1,26 @@
+name: Bot_247_System
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Tự động chạy lại mỗi 6 giờ
+  workflow_dispatch:      # Cho phép bấm nút "Run workflow" thủ công
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Execute Bot
+        # Thiết lập timeout để GitHub không báo lỗi khi dừng
+        run: timeout 350m python bot2.py || true 
